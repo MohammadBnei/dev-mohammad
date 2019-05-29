@@ -29,14 +29,22 @@ bower_components
 # node-waf configuration
 .lock-wscript
 
+<<<<<<< HEAD
 # Compiled binary addons (http://nodejs.org/api/addons.html)
+=======
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+>>>>>>> bdb946b0340e095b3410272f684284627e2977e5
 build/Release
 
 # Dependency directories
 node_modules/
 jspm_packages/
 
+<<<<<<< HEAD
 # Typescript v1 declaration files
+=======
+# TypeScript v1 declaration files
+>>>>>>> bdb946b0340e095b3410272f684284627e2977e5
 typings/
 
 # Optional npm cache directory
@@ -51,6 +59,7 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
+<<<<<<< HEAD
 # dotenv environment variables file
 .env
 
@@ -67,3 +76,13 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+=======
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# next.js build output
+.next
+>>>>>>> bdb946b0340e095b3410272f684284627e2977e5
