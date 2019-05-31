@@ -620,3 +620,31 @@ pre tt:after {
     font-size: 100%;
   }
 }
+
+
+/* Assign grid instructions to our parent grid container */
+.grid-container {
+  display: grid;
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-areas:
+    " header header"
+    "main main"
+    "footer footer";
+  height: 100vh;
+}
+
+/* Give every child element its grid name */
+.header {
+  grid-area: header;
+  background-color: #648ca6;
+}
+
+.main {
+  grid-area: main;
+  background-color: #8fd4d9;
+}
+
+.footer {
+  grid-area: footer;
+  background-color: #648ca6;
+}

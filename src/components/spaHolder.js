@@ -31,7 +31,7 @@ const spaHolder = () => (
             let allPagesTemplated = data.allMarkdownRemark.nodes
                 .sort((nodeA, nodeB) => nodeA.frontmatter.page - nodeB.frontmatter.page)
                 .map(node => (
-                    <div className="markdown" key={node.frontmatter.page}
+                    <div className="markdown-page" key={node.frontmatter.page}
                         dangerouslySetInnerHTML={{ __html: node.html }}
                     />
                 ))

@@ -24,15 +24,17 @@ const Layout = ({ children }) => (
       }
     `}
     render={data => (
-      <>
+      <div className="grid-container">
         <Header siteTitle={data.site.siteMetadata.title} />
-        {children}
-        <footer>
+        <main>
+          {children}
+        </main>
+        <footer className="footer">
           © {new Date().getFullYear()}, Built with
             {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </footer>
-      </>
+      </div>
     )}
   />
 )
