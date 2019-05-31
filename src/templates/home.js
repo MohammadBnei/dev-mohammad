@@ -2,29 +2,11 @@ import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../components/layout";
 
-export default function Template({
-  data, // this prop will be injected by the GraphQL query below.
+export default function Template({ html,
 }) {
-  const { markdownRemark } = data // data.markdownRemark holds our post data
-  const { frontmatter, html } = markdownRemark
   return (
-    <Layout >
-      <div
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    </Layout>
+    <div className="markdown"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   )
 }
-
-export const pageQuery = graphql`
-  query($path: String!) {
-    markdownRemark(frontmatter: { path: { eq: $path } }) {
-      html
-      frontmatter {
-        date(formatString: "MMMM DD, YYYY")
-        page
-        path
-      }
-    }
-  }
-`
