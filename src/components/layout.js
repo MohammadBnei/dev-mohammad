@@ -8,6 +8,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
+import { css } from "emotion"
 
 import Header from "./header"
 import "./layout.css"
@@ -24,12 +25,27 @@ const Layout = ({ children }) => (
       }
     `}
     render={data => (
-      <div className="grid-container">
+      <div className={css`
+       width: 100vw;
+        min-height: 94vh;
+        margin: 0px;
+        display: grid;
+        grid-template-rows: 10vh auto 10vh;
+        grid-template-columns: auto;
+        align-content: stretch;
+        grid-template-areas:
+       " header"
+        "main"
+        "footer";
+      `}>
         <Header siteTitle={data.site.siteMetadata.title} />
         <main>
           {children}
         </main>
-        <footer className="footer">
+        <footer className={css`
+        grid-area: footer;
+        background-color: #648ca6;
+        `}>
           © {new Date().getFullYear()}, Built with
             {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>

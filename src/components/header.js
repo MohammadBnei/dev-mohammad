@@ -1,9 +1,12 @@
-import { Link } from "gatsby"
+import { css } from "emotion"
 import PropTypes from "prop-types"
 import React from "react"
 
 const Header = ({ siteTitle }) => (
-  <header className="header">
+  <header className={css`
+    grid-area: header;
+    background-color: #648ca6;
+  `}>
     <h1>
       {siteTitle}
     </h1>
