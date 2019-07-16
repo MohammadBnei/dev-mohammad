@@ -11,14 +11,27 @@ import { css } from "emotion"
 
 import "./layout.css"
 
-let cssStyle = `  
-  display: inline-grid;
+let cssStyle = `
+  color: white;
+  display: grid;
+  heigth: 100%;
+  justify-items: center;
+`
+
+let cssLargeStyle = `
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto 3em auto;
   grid-template-areas:
     ". . top top"
     "bottom bottom top top"
     "bottom bottom . .";
+`
+
+let cssSmallStyle = `
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "top"
+    "bottom";
 `
 
 const spaHolder = () => (
@@ -53,10 +66,17 @@ const spaHolder = () => (
         .sort((a, b) => a.page - b.page)
         .map(node => (
           <div
-            className={css`${cssStyle}`}
+            className={css`
+            ${cssStyle}
+            ${cssLargeStyle}
+            @media (max-width: 420px) {
+              ${cssSmallStyle}
+            }
+            `}
             key={node.page}>
             <div
               className={css`
+              align-self: center;
               grid-area: top;
             `}
               dangerouslySetInnerHTML={{ __html: node.top }}>
@@ -71,13 +91,13 @@ const spaHolder = () => (
         ))
 
       return <div className={css`
-          height: 100%
-          display: inline-grid;
+          overflow-x: auto;
+          width: 100%;
+          height: 100%;
+          display: grid;
           grid-gap: 10px;
           grid-template-columns: repeat(${allPagesTemplated.length}, 100%);
           grid-template-rows: 100%;
-          grid-auto-flow: row;
-          text-align: center;
       `}>{allPagesTemplated}</div>
     }}
   />

@@ -26,11 +26,12 @@ const Layout = ({ children }) => (
     `}
     render={data => (
       <div className={css`
-       width: 100vw;
-        min-height: 94vh;
+        width: 100vw;
+        overflow-x: hidden;
+        min-height: 100vh;
         margin: 0px;
         display: grid;
-        grid-template-rows: 10vh auto 10vh;
+        grid-template-rows: minmax(5em,10vh) auto minmax(5em,10vh);
         grid-template-columns: auto;
         align-content: stretch;
         grid-template-areas:
@@ -44,7 +45,7 @@ const Layout = ({ children }) => (
         </main>
         <footer className={css`
         grid-area: footer;
-        background-color: #648ca6;
+        background-color: #00ff00;
         `}>
           © {new Date().getFullYear()}, Built with
             {` `}
