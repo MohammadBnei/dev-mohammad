@@ -5,7 +5,7 @@ import React from "react"
 const Header = ({ siteTitle }) => (
   <header className={css`
     grid-area: header;
-    background-color: #648ca6;
+    background-color: #D13242;
   `}>
     <h1>
       {siteTitle}

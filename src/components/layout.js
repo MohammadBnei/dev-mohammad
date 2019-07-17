@@ -45,7 +45,7 @@ const Layout = ({ children }) => (
         </main>
         <footer className={css`
         grid-area: footer;
-        background-color: #00ff00;
+        background-color: #B3AF54;
         `}>
           © {new Date().getFullYear()}, Built with
             {` `}

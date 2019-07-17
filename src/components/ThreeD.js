@@ -18,7 +18,7 @@ export default class ThreeD extends Component {
         ReactDOM.findDOMNode(this).append(renderer.domElement);
 
         var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var material = new THREE.MeshBasicMaterial({ color: '#FFFC91' });
         var cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
 
@@ -59,4 +59,48 @@ export default class ThreeD extends Component {
             z-index: -9999;
         `} />)
     }
+}
+
+var group, camera, scene, renderer
+
+function init() {
+
+    scene = new THREE.Scene()
+
+    renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    ReactDOM.findDOMNode(this).append(renderer.domElement)
+
+    // camera
+
+    camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000)
+    camera.position.set(15, 20, 30)
+    scene.add(camera)
+
+    // controls
+
+    let controls = new OrbitControls(camera, renderer.domElement)
+    controls.minDistance = 20
+    controls.maxDistance = 50
+    controls.maxPolarAngle = Math.PI / 2
+
+    scene.add(new THREE.AmbientLight(0x222222))
+
+    // light
+
+    let light = new THREE.PointLight(0xffffff, 1)
+    camera.add(light)
+
+    // textures
+
+    let loader = new THREE.TextureLoader()
+    let texture = loader.load('textures/sprites/disc.png')
+
+    group = new THREE.Group()
+    scene.add(group)
+
+    // points
+
+    let vertices = new THREE.DodecahedronBufferGeometry(10).vertices
 }
