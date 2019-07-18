@@ -86,7 +86,9 @@ function onWindowResize() {
 function animate() {
     requestAnimationFrame(animate)
 
-    group.rotation.y += 0.005
+    cone.matrix.
+
+        cone.updateMatrix()
 
     render()
 }
