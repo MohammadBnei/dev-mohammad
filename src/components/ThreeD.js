@@ -9,42 +9,8 @@ import { css } from "emotion";
 
 export default class ThreeD extends Component {
     componentDidMount() {
-        // === THREE.JS CODE START ===
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-        var renderer = new THREE.WebGLRenderer();
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        ReactDOM.findDOMNode(this).append(renderer.domElement);
-
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshBasicMaterial({ color: '#FFFC91' });
-        var cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
-
-        camera.position.z = 5;
-
-        // control
-
-        let controls = new OrbitControls(camera, renderer.domElement)
-        controls.minDistance = 20
-        controls.maxDistance = 50
-        controls.maxPolarAngle = Math.PI / 2
-
-        scene.add(new THREE.AmbientLight(0x222222))
-
-        // light
-
-        let light = new THREE.PointLight(0xffffff)
-        camera.add(light)
-
-        var animate = function () {
-            requestAnimationFrame(animate);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            renderer.render(scene, camera);
-        };
-        animate();
+        init(ReactDOM.findDOMNode(this))
+        animate()
         // === THREE.JS EXAMPLE CODE END ===
     }
 
@@ -63,27 +29,29 @@ export default class ThreeD extends Component {
 
 var group, camera, scene, renderer
 
-function init() {
+function init(compomentDomElement) {
 
     scene = new THREE.Scene()
+    scene.fog = new THREE.Fog(scene.background, 10, 20)
 
     renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setClearColor(0x140b33, 1)
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
-    ReactDOM.findDOMNode(this).append(renderer.domElement)
+    compomentDomElement.append(renderer.domElement)
 
     // camera
 
     camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000)
-    camera.position.set(15, 20, 30)
+    camera.position.set(0, 0, 15)
     scene.add(camera)
 
     // controls
 
-    let controls = new OrbitControls(camera, renderer.domElement)
-    controls.minDistance = 20
-    controls.maxDistance = 50
-    controls.maxPolarAngle = Math.PI / 2
+    let controls = new OrbitControls(camera, document.body)
+    //controls.minDistance = 20
+    //controls.maxDistance = 50
+    //controls.maxPolarAngle = Math.PI / 2
 
     scene.add(new THREE.AmbientLight(0x222222))
 
@@ -92,15 +60,37 @@ function init() {
     let light = new THREE.PointLight(0xffffff, 1)
     camera.add(light)
 
-    // textures
-
-    let loader = new THREE.TextureLoader()
-    let texture = loader.load('textures/sprites/disc.png')
 
     group = new THREE.Group()
     scene.add(group)
 
-    // points
+    var geometry = new THREE.ConeGeometry(2, 5, 7);
+    var material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    var cone = new THREE.Mesh(geometry, material);
 
-    let vertices = new THREE.DodecahedronBufferGeometry(10).vertices
+    cone.matrixAutoUpdate = false
+    group.add(cone);
+
+
+
+    window.addEventListener('resize', onWindowResize, false);
+
+}
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatric()
+
+    renderer.setSize(window.innerWidth, window.innerHeight)
+}
+
+function animate() {
+    requestAnimationFrame(animate)
+
+    group.rotation.y += 0.005
+
+    render()
+}
+
+function render() {
+    renderer.render(scene, camera)
 }

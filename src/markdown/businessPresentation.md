@@ -8,5 +8,3 @@ position: "bottom"
 #Besoin d'un site ?
 
 ### Je suis là pour vous !
-
-####kdjazjhdjazdiuhazjd
