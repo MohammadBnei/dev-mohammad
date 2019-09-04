@@ -5,12 +5,14 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
-    "emotion": "*",
+    "@emotion/core": "^10.0.16",
     "gatsby": "*",
     "gatsby-image": "*",
+    "gatsby-plugin-emotion": "^4.1.4",
     "gatsby-plugin-manifest": "*",
     "gatsby-plugin-offline": "*",
     "gatsby-plugin-react-helmet": "*",
+    "gatsby-plugin-react-svg": "^2.1.2",
     "gatsby-plugin-sharp": "*",
     "gatsby-source-filesystem": "*",
     "gatsby-transformer-remark": "*",
@@ -22,10 +24,13 @@
     "three": "*"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "gatsby-plugin-eslint": "^2.0.5",
-    "nodemon": "^1.19.1",
-    "prettier": "^1.17.1"
+    "eslint": "*",
+    "eslint-loader": "*",
+    "eslint-plugin-react": "*",
+    "gatsby-plugin-eslint": "*",
+    "nodemon": "*",
+    "prettier": "*",
+    "react-scripts": "^3.0.1"
   },
   "keywords": [
     "gatsby"

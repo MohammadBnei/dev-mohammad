@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "react-app"
+  ],
+  "globals": {
+    "__PATH_PREFIX__": true,
+  },
+  "plugins": [
+    "react"
+  ]
+}

@@ -7,12 +7,109 @@
 
 import React from "react"
 import { StaticQuery, graphql } from "gatsby"
-import { css } from "emotion"
+import { css } from "@emotion/core"
 
 import "./layout.css"
 
+const spaHolder = () => (
+  <StaticQuery
+    query={graphql`
+      query {
+        allMarkdownRemark {
+          nodes {
+            frontmatter {
+              path
+              page
+              position
+            }
+            html
+          }
+        }
+      }
+    `}
+    render={data => {
+      let content = data.allMarkdownRemark.nodes
+        /**
+         * Reducing the content by page and position
+         */
+        .reduce((acc, cur) => {
+          let itemInArray = acc.find(
+            element => element.page === cur.frontmatter.page
+          )
+          let item = itemInArray || { page: cur.frontmatter.page }
+
+          if (cur.frontmatter.position === "top") item.top = cur.html
+          else item.bottom = cur.html
+
+          if (!itemInArray) acc.push(item)
+
+          return acc
+        }, [])
+        /**
+         * Sorting by page ASC
+         */
+        .sort((a, b) => a.page - b.page)
+        /**
+         * Transforming the content into styled and imbricated HTML
+         * HTML Architecture :
+         * . . Top Top
+         * Bottom Bottom . .
+         */
+        .map(node => (
+          <div
+            css={css`
+              ${cssStyle}
+              ${cssLargeStyle}
+              @media (max-width: 420px) {
+                ${cssSmallStyle}
+              }
+            `}
+            id={"page" + node.page}
+            key={node.page}
+          >
+            <div
+              css={css`
+                align-self: center;
+                grid-area: top;
+              `}
+              dangerouslySetInnerHTML={{ __html: node.top }}
+            />
+            <div
+              css={css`
+                grid-area: bottom;
+              `}
+              dangerouslySetInnerHTML={{ __html: node.bottom }}
+            />
+          </div>
+        ))
+
+      return (
+        <div
+          css={css`
+            overflow-x: auto;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(${content.length}, 100%);
+            grid-template-rows: 100%;
+
+            ::-webkit-scrollbar {
+              display: none;
+            }
+          `}
+        >
+          {content}
+        </div>
+      )
+    }}
+  />
+)
+
+export default spaHolder
+
 let cssStyle = `
-  color: white;
+  color: black;
   display: grid;
   heigth: 100%;
   justify-items: center;
@@ -33,74 +130,3 @@ let cssSmallStyle = `
     "top"
     "bottom";
 `
-
-const spaHolder = () => (
-  <StaticQuery
-    query={graphql`
-      query {
-        allMarkdownRemark {
-          nodes {
-            frontmatter {
-              path
-              page
-              position
-            }
-            html
-          }
-        }
-      }
-    `}
-    render={data => {
-      let allPagesTemplated = data.allMarkdownRemark.nodes
-        .reduce((acc, cur) => {
-          let itemInArray = acc.find(element => element.page === cur.frontmatter.page)
-          let item = itemInArray || { page: cur.frontmatter.page }
-
-          if (cur.frontmatter.position === 'top') item.top = cur.html
-          else item.bottom = cur.html
-
-          if (!itemInArray) acc.push(item)
-
-          return acc
-        }, [])
-        .sort((a, b) => a.page - b.page)
-        .map(node => (
-          <div
-            className={css`
-            ${cssStyle}
-            ${cssLargeStyle}
-            @media (max-width: 420px) {
-              ${cssSmallStyle}
-            }
-            `}
-            key={node.page}>
-            <div
-              className={css`
-              align-self: center;
-              grid-area: top;
-            `}
-              dangerouslySetInnerHTML={{ __html: node.top }}>
-            </div>
-            <div
-              className={css`
-              grid-area: bottom;
-            `}
-              dangerouslySetInnerHTML={{ __html: node.bottom }}>
-            </div>
-          </div>
-        ))
-
-      return <div className={css`
-          overflow-x: auto;
-          width: 100%;
-          height: 100%;
-          display: grid;
-          grid-gap: 10px;
-          grid-template-columns: repeat(${allPagesTemplated.length}, 100%);
-          grid-template-rows: 100%;
-      `}>{allPagesTemplated}</div>
-    }}
-  />
-)
-
-export default spaHolder

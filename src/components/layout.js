@@ -7,54 +7,60 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
-import { css } from "emotion"
+import { css } from "@emotion/core"
 
-import Header from "./header"
+import HeaderLarge from "./headerLarge"
+import HeaderSmall from "./headerSmall"
 import "./layout.css"
 
-const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `}
-    render={data => (
-      <div className={css`
-        width: 100vw;
-        overflow-x: hidden;
-        min-height: 100vh;
-        margin: 0px;
-        display: grid;
-        grid-template-rows: minmax(5em,10vh) auto minmax(5em,10vh);
-        grid-template-columns: auto;
-        align-content: stretch;
-        grid-template-areas:
-       " header"
-        "main"
-        "footer";
-      `}>
-        <Header siteTitle={data.site.siteMetadata.title} />
-        <main>
-          {children}
-        </main>
-        <footer className={css`
-        grid-area: footer;
-        background-color: #B3AF54;
-        `}>
-          © {new Date().getFullYear()}, Built with
-            {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
+class Layout extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { width: 0, height: 0 }
+    this.children = props.children
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
+  }
+
+  componentDidMount() {
+    this.updateWindowDimensions()
+    window.addEventListener("resize", this.updateWindowDimensions)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions)
+  }
+
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight })
+  }
+
+  render() {
+    return (
+      <div
+        css={css`
+          width: 100vw;
+          overflow-x: hidden;
+          min-height: 100vh;
+          margin: 0px;
+          display: grid;
+          grid-template-rows: minmax(5em, 10vh) auto;
+          grid-template-columns: auto;
+          align-content: stretch;
+          grid-template-areas:
+            " header"
+            "main";
+        `}
+      >
+        {this.state.width <= 420 ? (
+          <HeaderSmall width={this.state.width} />
+        ) : (
+          <HeaderLarge />
+        )}
+        <main>{this.children}</main>
       </div>
-    )}
-  />
-)
+    )
+  }
+}
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
