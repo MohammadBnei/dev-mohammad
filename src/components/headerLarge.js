@@ -12,6 +12,7 @@ const HeaderLarge = () => (
           nodes {
             frontmatter {
               page
+              path
               title
             }
           }
@@ -19,20 +20,11 @@ const HeaderLarge = () => (
       }
     `}
     render={data => {
-      let pagesHTML = data.allMarkdownRemark.nodes
-        /**
-         * Removing duplicate (top and bottom are distinct elements, while remaining on the same page)
-         */
-        .filter(
-          (elem, pos, arr) =>
-            arr.findIndex(e => e.frontmatter.page === elem.frontmatter.page) ===
-            pos
-        )
-        .map(item => (
-          <Link to={`/${item.frontmatter.title}/`} key={item.frontmatter.page}>
-            {item.frontmatter.title}
-          </Link>
-        ))
+      let pagesHTML = data.allMarkdownRemark.nodes.map(item => (
+        <Link to={`${item.frontmatter.path}`} key={item.frontmatter.page}>
+          {item.frontmatter.title}
+        </Link>
+      ))
 
       return (
         <header
@@ -49,17 +41,19 @@ const HeaderLarge = () => (
               justify-items: center;
             `}
           >
-            <Logo
-              css={css`
-                margin: 0 1em 0 1em;
-                width: 7em;
-                @media (max-width: 420px) {
-                  width: 3em;
-                }
-                align-self: center;
-                shape-rendering: geometricPrecision;
-              `}
-            />
+            <Link to="/">
+              <Logo
+                css={css`
+                  margin: 0 1em 0 1em;
+                  width: 7em;
+                  @media (max-width: 420px) {
+                    width: 3em;
+                  }
+                  align-self: center;
+                  shape-rendering: geometricPrecision;
+                `}
+              />
+            </Link>
             <div>
               <h5>Mohammad-Amine BANAEI</h5>
               <h4>Developpeur Freelance</h4>

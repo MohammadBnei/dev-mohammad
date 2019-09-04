@@ -20,7 +20,6 @@ const spaHolder = () => (
             frontmatter {
               path
               page
-              position
             }
             html
           }
